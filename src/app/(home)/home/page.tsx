@@ -1,7 +1,11 @@
 'use client'
 
+import Navigation from "@/components/app.navigation"
+import NavigationContent from "@/components/app.navigation.content"
+import Social from "@/components/app.social.link"
 import gsap from "gsap"
 import { Expo } from "gsap"
+import Image from "next/image"
 import { useLayoutEffect } from "react"
 
 const Home = () => {
@@ -28,59 +32,28 @@ const Home = () => {
             ease: Expo.easeOut,
         })
 
+
         document.addEventListener("mousemove", (e) => {
             setX(e.clientX);
             setY(e.clientY);
             setX2(e.clientX);
             setY2(e.clientY);
         })
-        // const cursor = '.cursor'
-        // const cursortwo = '.cursor-two'
-        // const cursormover = (e: any) => {
-        //     gsap.to(cursor, {
-        //         x: e.clientX,
-        //         y: e.clientY,
-        //     })
-        //     gsap.to(cursortwo, {
-        //         x: e.clientX,
-        //         y: e.clientY,
-        //     })
-        // }
-        // const cursorhover = (e: any) => {
-        //     gsap.to(cursor, {
-        //         scale: 1.5,
-        //         opacity: .4,
-        //         background: 'rgb(235,235,235)',
-        //         border: 'none',
-        //         ease: Expo.easeOut,
-        //     })
-        //     gsap.to(cursortwo, {
-        //         scale: 0,
-        //         opacity: 0
-        //     })
-        // }
-        // const cursorfn = (e: any) => {
-        //     gsap.to(cursor, {
-        //         scale: 1,
-        //         opacity: 1,
-        //         background: 'transparent',
-        //         border: '1px solid rgb(235,235,235)',
-        //         innerHTML: ''
-        //     })
-        //     gsap.to(cursortwo, {
-        //         scale: 1,
-        //         opacity: 1
-        //     })
-        // }
-        // document.addEventListener('mousemove', cursormover);
-        // document.querySelector('a').hover(cursorhover, cursor);
-        // $('.hover').hover(cursorhover, cursor);
-        // $('.mouse').hover(cursorhover, cursor);
+
     }, [])
     return (
         <>
-            <div className="cursor scale"></div>
-            <div className="pointer scale"></div>
+            <div className="cursor"></div>
+            <div className="pointer"></div>
+            <div id="header">
+                <Navigation />
+                <Social />
+
+                <div className="headphone img text">
+                    <Image src="/images/headphone.png" width={30} height={30} className="text" alt="headphone"/>
+                </div>
+            </div>
+            <NavigationContent />
         </>
     )
 }
