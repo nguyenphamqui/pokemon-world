@@ -1,7 +1,12 @@
 import gsap, { Expo } from "gsap"
 import Link from "next/link"
 
-const Navigation = () => {
+interface IProps {
+  cursorHover: () => void
+  cursorNormal: () => void
+}
+const Navigation = (props: IProps) => {
+  const { cursorHover, cursorNormal } = props
   const handleOpenMenu = () => {
     gsap.to('.navigation-content', 1.5, { y: 0, ease: Expo.easeInOut })
     gsap.to('.navigation-content ul li', 1, { opacity: 1, delay: 1, stagger: .1 })
@@ -13,10 +18,21 @@ const Navigation = () => {
   return (
     <div className="navigation">
       <div className="logo hover ">
-        <Link href="#" className="text uppercase">Pokemon world</Link>
+        <Link
+          href="/"
+          className="text uppercase"
+          onMouseOver={cursorHover}
+          onMouseLeave={cursorNormal}
+        >
+          Pokemon world
+        </Link>
       </div>
       <div className="menu-bar hover ">
-        <div className="menu-bar-name text" onClick={() => handleOpenMenu()}>
+        <div className="menu-bar-name text"
+          onClick={handleOpenMenu}
+          onMouseOver={cursorHover}
+          onMouseLeave={cursorNormal}
+        >
           Menu
         </div>
         <div className="menu-bar-lines text">

@@ -1,22 +1,35 @@
 import gsap, { Expo } from "gsap"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-const NavigationContent = () => {
 
+interface IProps {
+  cursorHover: () => void
+  cursorNormal: () => void
+}
+
+const NavigationContent = (props: IProps) => {
+  const { cursorHover, cursorNormal } = props
   const [bgImage, setBgImage] = useState('')
 
   const handleMouseOver = (e: any) => {
-    gsap.to('.project-preview', 1, { width: '200px', ease: Expo.easeInOut })
     var img = e.target.dataset.img;
+    cursorHover()
     setBgImage(img)
+    console.log("file: app.navigation.content.tsx:20 >>> handleMouseOver >>> img:", img)
+    console.log("file: app.navigation.content.tsx:20 >>> handleMouseOver >>> bgImage:", bgImage)
+    gsap.to('.navigation-content', 1, { backgroundImage: `url(${img})`, ease: Expo.easeInOut })
   }
-  const handleMouseOut = () => {
-    gsap.to('.project-preview', 1, { width: '0px', ease: Expo.easeInOut })
-    setBgImage('')
+  const handleMouseLeave = () => {
+    gsap.to('.navigation-content', 1, { backgroundImage: 'initial', ease: Expo.easeInOut })
+    // setBgImage('')
+    cursorNormal()
   }
-
+  useEffect(()=>{
+    handleMouseOver
+    handleMouseLeave
+  },[bgImage])
   const handleClose = () => {
     gsap.to('.navigation-content ul li', .5, { opacity: 0, stagger: -.1 })
     gsap.to('.navigation-content .opacity', .5, { opacity: 0, stagger: .1 })
@@ -31,13 +44,12 @@ const NavigationContent = () => {
       y: e.clientY,
     })
   }
-  console.log('>>>>>>', bgImage)
   return (
-    <div className="navigation-content" onMouseMove={(e) => handleMouseMove(e)}>
-      <div className="navigation-logo hover opacity">
-        <Link href="#" className="text"
+    <div className="navigation-content" style={{ backgroundImage: `url(${bgImage}) ` }} onMouseMove={(e) => handleMouseMove(e)}>
+      <div className="navigation-logo hover opacity-0">
+        <Link href="/" className="text"
           onMouseOver={(e) => handleMouseOver(e)}
-          onMouseOut={handleMouseOut}>
+          onMouseLeave={handleMouseLeave}>
           ARLO BROWN
         </Link>
       </div>
@@ -47,7 +59,7 @@ const NavigationContent = () => {
             data-text="Home"
             data-img="/images/bg-image-three.jpg"
             onMouseOver={(e) => handleMouseOver(e)}
-            onMouseOut={handleMouseOut}>
+            onMouseLeave={handleMouseLeave}>
             Home
           </Link>
         </li>
@@ -55,7 +67,9 @@ const NavigationContent = () => {
           <Link href="about-one.html"
             data-text="About"
             data-img="/images/about-img.jpg"
-            onMouseOver={(e) => handleMouseOver(e)}>
+            onMouseOver={(e) => handleMouseOver(e)}
+            onMouseLeave={handleMouseLeave}
+          >
             About
           </Link>
         </li>
@@ -63,7 +77,9 @@ const NavigationContent = () => {
           <Link href="songs-one.html"
             data-text="Songs"
             data-img="/images/album-thumbnail-nine.jpg"
-            onMouseOver={(e) => handleMouseOver(e)}>
+            onMouseOver={(e) => handleMouseOver(e)}
+            onMouseLeave={handleMouseLeave}
+          >
             Songs
           </Link>
         </li>
@@ -71,7 +87,9 @@ const NavigationContent = () => {
           <Link href="blog-one.html"
             data-text="Blogs"
             data-img="/images/main-bg-three.jpg"
-            onMouseOver={(e) => handleMouseOver(e)}>
+            onMouseOver={(e) => handleMouseOver(e)}
+            onMouseLeave={handleMouseLeave}
+          >
             Blogs
           </Link>
         </li>
@@ -79,16 +97,21 @@ const NavigationContent = () => {
           <Link href="contact-one.html"
             data-text="Contact"
             data-img="images/album-thumbnail-four.jpg"
-            onMouseOver={(e) => handleMouseOver(e)}>
+            onMouseOver={(e) => handleMouseOver(e)}
+            onMouseLeave={handleMouseLeave}
+          >
             Contact
           </Link>
         </li>
       </ul>
-      <div className="navigation-close hover about-close opacity" onClick={handleClose}>
+      <div className="navigation-close hover about-close opacity"
+        onClick={handleClose}
+        onMouseOver={(e) => handleMouseOver(e)}
+        onMouseLeave={handleMouseLeave}
+      >
         <div className="navigation-close-line"></div>
         <div className="navigation-close-line"></div>
       </div>
-      <div className="project-preview" style={{ backgroundImage: `url(${bgImage}) `, backgroundColor: 'white' }}></div>
       <div className="headphone-navigation opacity">
         <Image src="/images/headphone.png" width={100} height={100} title="headphone zone" className="text" alt="headphone" />
       </div>
